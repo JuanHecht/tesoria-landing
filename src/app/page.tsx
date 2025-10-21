@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { ContainerScroll } from "@/components/ui/container-scroll-animation";
 import Image from "next/image";
 import { Navbar } from "@/components/ui/mini-navbar";
@@ -17,11 +16,11 @@ export default function Home() {
           <Hero />
         </AuroraBackground>
       </section>
-      <section className="bg-zinc-900">
+      <section className="bg-background">
         <ContainerScroll
           titleComponent={
             <>
-              <h1 className="text-4xl font-semibold text-black dark:text-white">
+              <h1 className="text-4xl font-semibold text-foreground">
                 Unleash the power of <br />
                 <span className="text-4xl md:text-[6rem] font-bold mt-1 leading-none">
                   Scroll Animations
