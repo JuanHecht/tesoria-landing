@@ -72,7 +72,7 @@ export function Navbar() {
   ];
 
   const loginButtonElement = (
-    <button className="px-4 py-2 sm:px-3 text-xs sm:text-sm border border-[#333] bg-[rgba(31,31,31,0.62)] text-gray-300 rounded-full hover:border-white/50 hover:text-white transition-colors duration-200 w-full sm:w-auto">
+    <button className="px-4 py-2 sm:px-3 text-xs sm:text-sm border border-gray-700 bg-gray-800/60 text-gray-300 rounded-full hover:border-white/50 hover:text-white transition-colors duration-200 w-full sm:w-auto">
       LogIn
     </button>
   );
@@ -99,7 +99,7 @@ export function Navbar() {
                        flex flex-col items-center
                        pl-6 pr-6 py-3 backdrop-blur-sm
                        ${headerShapeClass}
-                       border border-[#333] bg-[#1f1f1f57]
+                       border border-gray-700 bg-gray-800/60
                        w-[calc(100%-2rem)] sm:w-auto
                        transition-[border-radius] duration-0 ease-in-out`}
     >
