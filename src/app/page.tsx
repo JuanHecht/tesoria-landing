@@ -30,8 +30,8 @@ export default function Home() {
           }
         >
           <Image
-            src={`https://ui.aceternity.com/_next/image?url=%2Flinear.webp&w=3840&q=75`}
-            alt="hero"
+            src="/ipad_ss.png"
+            alt="iPad screenshot"
             height={720}
             width={1400}
             className="mx-auto rounded-2xl object-cover h-full object-left-top"
