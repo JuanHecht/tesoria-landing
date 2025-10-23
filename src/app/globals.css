@@ -194,6 +194,7 @@
   --primary: var(--brand-highlight);
   --primary-foreground: var(--brand-dark);
   --secondary: var(--brand-primary);
+  --third: var(--brand-accent);
   --secondary-foreground: var(--brand-secondary);
   --muted: var(--brand-accent);
   --muted-foreground: var(--brand-neutral);

@@ -6,6 +6,8 @@ import { Navbar } from "@/components/ui/mini-navbar";
 import { AuroraBackground } from "@/components/ui/aurora-background";
 import { Features } from "@/components/blocks/features-1";
 import { Hero } from "@/components/ui/animated-hero";
+import { Timeline } from "@/components/ui/timeline";
+import { timelineData } from "@/data/timeline-data";
 
 export default function Home() {
   return (
@@ -39,6 +41,7 @@ export default function Home() {
           />
         </ContainerScroll>
         <Features />
+        <Timeline data={timelineData} />
       </section>
     </div>
   );
