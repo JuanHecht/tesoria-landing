@@ -14,23 +14,23 @@ import { Timeline } from "@/components/ui/timeline";
 // demo.tsx
 const projects = [
   {
-    title: "Automatiza tus datos",
+    title: "Base: La fundación de la verdad",
     description:
-      "Originally hailing from Austria, Berlin-based photographer Matthias Leindinger is a young creative brimming with talent and ideas.",
+      "Todo empieza aquí. El motor que automáticamente recolecta, centraliza y organiza tus datos (SAT y bancos) en una fuente única y confiable.",
     link: "/frame1.png",
-    color: "var(--brand-accent)",
+    color: "#4F3E88",
   },
   {
-    title: "Automatiza tus datos",
+    title: "Enmedio: Claridad en Tiempo Real",
     description:
-      "This is a story on the border between reality and imaginary, about the contradictory feelings that the insularity of a rocky, arid, and wild territory provokes”—so French photographer Clément.",
+      'Responde al "¿Dónde estamos ahora?". Te damos visibilidad total de tu flujo de caja y operación en dashboards claros y siempre actualizados.',
     link: "/frame2.png",
-    color: "var(--brand-accent)",
+    color: "var(--accent)",
   },
   {
-    title: "Automatiza tus datos",
+    title: "Punta: Estrategia a Futuro",
     description:
-      "Though he views photography as a medium for storytelling, Zissou’s images don’t insist on a narrative. Both crisp and ethereal.",
+      'Define el "¿Hacia dónde vamos?". Modela escenarios "what-if", proyecta tu runway y toma decisiones de alto nivel sobre tu crecimiento con una visión de largo plazo.',
     link: "/frame3.png",
     color: "var(--brand-accent)",
   },
@@ -69,7 +69,20 @@ export default function Home() {
         </ContainerScroll>
         <Features />
       </section>
-      <section className="bg-foreground">
+      <section className="bg-foreground py-16 md:py-32">
+        <div className="@container mx-auto max-w-5xl px-6 text-background">
+          <div className="text-center">
+            <h2 className="text-balance text-4xl font-semibold lg:text-5xl">
+              Solución de 3 niveles
+            </h2>
+            {/* <p className="text-lg md:text-xl leading-relaxed tracking-tight text-center">
+              Deja de operar a ciegas. Cargamos toda tu data (SAT y bancos) y
+              usamos IA para darte una visión clara de tu negocio. Por fin, la
+              inteligencia que necesitas para tomar decisiones, no solo para
+              pagar impuestos.
+            </p> */}
+          </div>
+        </div>
         <Component projects={projects} />
       </section>
     </div>
