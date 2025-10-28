@@ -6,17 +6,46 @@ import { Navbar } from "@/components/ui/mini-navbar";
 import { AuroraBackground } from "@/components/ui/aurora-background";
 import { Features } from "@/components/blocks/features-1";
 import { Hero } from "@/components/ui/animated-hero";
+import Component from "@/components/ui/stacking-card";
+import React from "react";
+/* import TimelineDemo from "./timeline"; */
+import { Timeline } from "@/components/ui/timeline";
+
+// demo.tsx
+const projects = [
+  {
+    title: "Automatiza tus datos",
+    description:
+      "Originally hailing from Austria, Berlin-based photographer Matthias Leindinger is a young creative brimming with talent and ideas.",
+    link: "/frame1.png",
+    color: "var(--brand-accent)",
+  },
+  {
+    title: "Automatiza tus datos",
+    description:
+      "This is a story on the border between reality and imaginary, about the contradictory feelings that the insularity of a rocky, arid, and wild territory provokes”—so French photographer Clément.",
+    link: "/frame2.png",
+    color: "var(--brand-accent)",
+  },
+  {
+    title: "Automatiza tus datos",
+    description:
+      "Though he views photography as a medium for storytelling, Zissou’s images don’t insist on a narrative. Both crisp and ethereal.",
+    link: "/frame3.png",
+    color: "var(--brand-accent)",
+  },
+];
 
 export default function Home() {
   return (
-    <div className="flex flex-col overflow-hidden">
-      <section>
+    <div className="flex flex-col">
+      <section className="overflow-hidden">
         <AuroraBackground>
           <Navbar />
           <Hero />
         </AuroraBackground>
       </section>
-      <section className="bg-background">
+      <section className="bg-background overflow-hidden">
         <ContainerScroll
           titleComponent={
             <>
@@ -39,6 +68,9 @@ export default function Home() {
           />
         </ContainerScroll>
         <Features />
+      </section>
+      <section className="bg-foreground">
+        <Component projects={projects} />
       </section>
     </div>
   );
