@@ -9,7 +9,6 @@ import { Hero } from "@/components/ui/animated-hero";
 import Component from "@/components/ui/stacking-card";
 import React from "react";
 /* import TimelineDemo from "./timeline"; */
-import { Timeline } from "@/components/ui/timeline";
 
 // demo.tsx
 const projects = [

@@ -7,7 +7,7 @@ interface ButtonColorfulProps
   label?: string;
 }
 
-export function ButtonColorful({
+function ButtonColorful({
   className,
   label = "Explore Components",
   ...props

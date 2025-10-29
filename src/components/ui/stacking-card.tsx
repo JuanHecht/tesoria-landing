@@ -2,8 +2,7 @@
 "use client";
 import { ReactLenis } from "lenis/react";
 import { useTransform, motion, useScroll, MotionValue } from "motion/react";
-import { useRef, forwardRef } from "react";
-import { cn } from "@/lib/utils";
+import { useRef } from "react";
 
 interface ProjectData {
   title: string;
@@ -74,9 +73,12 @@ export const Card = ({
               className={`w-full h-full`}
               style={{ scale: imageScale }}
             >
-              <img
-                src={url}
-                alt="image"
+              <div
+                style={{
+                  backgroundImage: `url(${url})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
                 className="absolute inset-0 w-full h-full object-cover"
               />
             </motion.div>
@@ -91,58 +93,47 @@ interface ComponentRootProps {
   projects: ProjectData[];
 }
 
-const Component = forwardRef<HTMLElement, ComponentRootProps>(
-  ({ projects }, ref) => {
-    const container = useRef(null);
-    const { scrollYProgress } = useScroll({
-      target: container,
-      offset: ["start start", "end end"],
-    });
+const Component = ({ projects }: ComponentRootProps) => {
+  const container = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: container,
+    offset: ["start start", "end end"],
+  });
 
-    return (
-      <ReactLenis root>
-        <main ref={container}>
-          <>
-            {/* <section className="text-white h-[70vh] w-full bg-slate-950 grid place-content-center">
-              <div className="absolute bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:54px_54px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
+  return (
+    <ReactLenis root>
+      <main ref={container}>
+        <>
+          {/* <section className="text-white h-[70vh] w-full bg-slate-950 grid place-content-center">
+            <div className="absolute bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:54px_54px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
 
-              <h1 className="2xl:text-7xl text-5xl px-8 font-semibold text-center tracking-tight leading-[120%]">
-                Stacking Cards Using <br /> Motion. Scroll down! 👇
-              </h1>
-            </section> */}
-          </>
-
-          <section className="text-white w-full ">
-            {projects.map((project, i) => {
-              const targetScale = 1 - (projects.length - i) * 0.05;
-              return (
-                <Card
-                  key={`p_${i}`}
-                  i={i}
-                  url={project.link}
-                  title={project.title}
-                  color={project.color}
-                  description={project.description}
-                  progress={scrollYProgress}
-                  range={[i * 0.25, 1]}
-                  targetScale={targetScale}
-                />
-              );
-            })}
-          </section>
-
-          {/* <footer className="group bg-slate-950">
-            <h1 className="text-[16vw] translate-y-20 leading-[100%] uppercase font-semibold text-center bg-gradient-to-r from-gray-400 to-gray-800 bg-clip-text text-transparent transition-all ease-linear">
-              ui-layout
+            <h1 className="2xl:text-7xl text-5xl px-8 font-semibold text-center tracking-tight leading-[120%]">
+              Stacking Cards Using <br /> Motion. Scroll down! 👇
             </h1>
-            <div className="bg-black h-40 relative z-10 grid place-content-center text-2xl rounded-tr-full rounded-tl-full"></div>
-          </footer> */}
-        </main>
-      </ReactLenis>
-    );
-  }
-);
+          </section> */}
+        </>
 
-Component.displayName = "Component";
+        <section className="text-white w-full ">
+          {projects.map((project, i) => {
+            const targetScale = 1 - (projects.length - i) * 0.05;
+            return (
+              <Card
+                key={`p_${i}`}
+                i={i}
+                url={project.link}
+                title={project.title}
+                color={project.color}
+                description={project.description}
+                progress={scrollYProgress}
+                range={[i * 0.25, 1]}
+                targetScale={targetScale}
+              />
+            );
+          })}
+        </section>
+      </main>
+    </ReactLenis>
+  );
+};
 
 export default Component;
