@@ -56,12 +56,22 @@ export default function Home() {
             </>
           }
         >
+          {/* Mobile/Small screens - show ipad_ss_figma.png */}
           <Image
-            src="/ipad_ss.png"
+            src="/ipad_ss_figma.png"
             alt="iPad screenshot"
             height={720}
             width={1400}
-            className="mx-auto rounded-2xl object-cover h-full object-left-top"
+            className="block md:hidden mx-auto rounded-2xl object-cover h-full object-left-top"
+            draggable={false}
+          />
+          {/* Desktop/md and larger - show ipad_ss.png */}
+          <Image
+            src="/ipad_horizontal.png"
+            alt="iPad screenshot"
+            height={720}
+            width={1400}
+            className="hidden md:block mx-auto rounded-2xl object-cover h-full object-left-top"
             draggable={false}
           />
         </ContainerScroll>
