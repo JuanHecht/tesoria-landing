@@ -1,22 +1,22 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { cn } from "@/lib/utils"
+import { Button, type ButtonProps } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 interface CTAProps {
   badge?: {
-    text: string
-  }
-  title: string
-  description?: string
+    text: string;
+  };
+  title: string;
+  description?: string;
   action: {
-    text: string
-    href: string
-    variant?: "default" | "glow"
-  }
-  withGlow?: boolean
-  className?: string
+    text: string;
+    href: string;
+    variant?: ButtonProps["variant"];
+  };
+  withGlow?: boolean;
+  className?: string;
 }
 
 export function CTASection({
@@ -68,5 +68,5 @@ export function CTASection({
         )}
       </div>
     </section>
-  )
+  );
 }
