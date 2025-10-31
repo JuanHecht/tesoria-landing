@@ -9,7 +9,7 @@ interface ButtonColorfulProps
 
 function ButtonColorful({
   className,
-  label = "Explore Components",
+  label = "Ingresa a tu cuenta",
   ...props
 }: ButtonColorfulProps) {
   return (

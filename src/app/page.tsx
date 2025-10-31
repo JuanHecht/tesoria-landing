@@ -1,5 +1,3 @@
-"use client";
-
 import { ContainerScroll } from "@/components/ui/container-scroll-animation";
 import Image from "next/image";
 import { Navbar } from "@/components/ui/mini-navbar";
@@ -8,7 +6,8 @@ import { Features } from "@/components/blocks/features-1";
 import { Hero } from "@/components/ui/animated-hero";
 import Component from "@/components/ui/stacking-card";
 import React from "react";
-/* import TimelineDemo from "./timeline"; */
+import { CustomFooter } from "@/components/custom/custom-footer";
+import { CTA } from "@/components/ui/call-to-action";
 
 // demo.tsx
 const projects = [
@@ -49,9 +48,9 @@ export default function Home() {
           titleComponent={
             <>
               <h1 className="text-4xl font-semibold text-foreground">
-                Unleash the power of <br />
+                Conoce tus números <br />
                 <span className="text-4xl md:text-[6rem] font-bold mt-1 leading-none">
-                  Scroll Animations
+                  Usando Tesoria
                 </span>
               </h1>
             </>
@@ -66,24 +65,30 @@ export default function Home() {
             draggable={false}
           />
         </ContainerScroll>
-        <Features />
-      </section>
-      <section className="bg-foreground py-16 md:py-32">
-        <div className="@container mx-auto max-w-5xl px-6 text-background">
-          <div className="text-center">
-            <h2 className="text-balance text-4xl font-semibold lg:text-5xl">
-              Solución de 3 niveles
-            </h2>
-            {/* <p className="text-lg md:text-xl leading-relaxed tracking-tight text-center">
-              Deja de operar a ciegas. Cargamos toda tu data (SAT y bancos) y
-              usamos IA para darte una visión clara de tu negocio. Por fin, la
-              inteligencia que necesitas para tomar decisiones, no solo para
-              pagar impuestos.
-            </p> */}
-          </div>
+        <div id="problem">
+          <Features />
         </div>
-        <Component projects={projects} />
       </section>
+      <div className="bg-foreground">
+        <section className="bg-foreground py-16 md:py-32" id="solution">
+          <div className="@container mx-auto max-w-5xl px-6 text-background">
+            <div className="text-center">
+              <h2 className="text-balance text-4xl font-semibold lg:text-5xl">
+                Solución de 3 niveles
+              </h2>
+            </div>
+          </div>
+          <Component projects={projects} />
+        </section>
+        <section className="mx-auto py-4" id="contact">
+          <div className="w-full">
+            <CTA />
+          </div>
+        </section>
+        <section className="text-background" id="footer">
+          <CustomFooter />
+        </section>
+      </div>
     </div>
   );
 }

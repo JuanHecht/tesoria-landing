@@ -1,7 +1,8 @@
 "use client";
-
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const AnimatedNavLink = ({
   href,
@@ -28,6 +29,7 @@ const AnimatedNavLink = ({
 };
 
 export function Navbar() {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [headerShapeClass, setHeaderShapeClass] = useState("rounded-full");
   const shapeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -57,14 +59,17 @@ export function Navbar() {
   }, [isOpen]);
 
   const navLinksData = [
-    { label: "Manifesto", href: "#1" },
-    { label: "Careers", href: "#2" },
-    { label: "Discover", href: "#3" },
+    { label: "Problema", href: "/#problem" },
+    { label: "Solución", href: "/#solution" },
+    { label: "Contacto", href: "/#contact" },
   ];
 
   const loginButtonElement = (
-    <button className="px-4 py-2 sm:px-3 text-xs sm:text-sm border border-border bg-card/60 text-muted-foreground rounded-full hover:border-primary/50 hover:text-foreground transition-colors duration-200 w-full sm:w-auto">
-      LogIn
+    <button
+      onClick={() => (window.location.href = "https://app.tesoria.ai")}
+      className="px-4 py-2 sm:px-3 text-xs sm:text-sm border border-border bg-card/60 text-muted-foreground rounded-full hover:border-primary/50 hover:text-foreground transition-colors duration-200 w-full sm:w-auto"
+    >
+      Login
     </button>
   );
 
@@ -78,8 +83,11 @@ export function Navbar() {
                      transition-all duration-300 ease-out
                      group-hover:opacity-60 group-hover:blur-xl group-hover:-m-3"
       ></div>
-      <button className="relative z-10 px-4 py-2 sm:px-3 text-xs sm:text-sm font-semibold text-black bg-gradient-to-br from-gray-100 to-gray-300 rounded-full hover:from-gray-200 hover:to-gray-400 transition-all duration-200 w-full sm:w-auto">
-        Signup
+      <button
+        onClick={() => router.push("/contact")}
+        className="relative z-10 px-4 py-2 sm:px-3 text-xs sm:text-sm font-semibold text-black bg-gradient-to-br from-gray-100 to-gray-300 rounded-full hover:from-gray-200 hover:to-gray-400 transition-all duration-200 w-full sm:w-auto"
+      >
+        Demo
       </button>
     </div>
   );
@@ -96,13 +104,15 @@ export function Navbar() {
     >
       <div className="flex items-center justify-between w-full gap-x-6 sm:gap-x-8">
         <div className="flex items-center">
-          <Image
-            src="/logo.svg"
-            alt="logo"
-            width={80}
-            height={80}
-            className="w-8 h-8"
-          />
+          <Link href="/">
+            <Image
+              src="/logo.svg"
+              alt="logo"
+              width={80}
+              height={80}
+              className="w-8 h-8"
+            />
+          </Link>
         </div>
 
         <nav className="hidden sm:flex items-center space-x-4 sm:space-x-6 text-sm">

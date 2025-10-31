@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { PhoneCall } from "lucide-react";
@@ -8,7 +9,7 @@ function Hero() {
   const [titleNumber, setTitleNumber] = useState(0);
   const titles = useMemo(
     () => [
-      "predecir tu flujo de caja",
+      "predecir flujo de caja",
       "dejar de usar Excel",
       "modelar contratación",
       "conciliar cuentas",
@@ -32,11 +33,6 @@ function Hero() {
     <div className="w-full">
       <div className="container mx-auto">
         <div className="flex gap-8 py-20 lg:py-40 items-center justify-center flex-col">
-          {/* <div>
-            <Button variant="secondary" size="sm" className="gap-4">
-              Read our launch article <MoveRight className="w-4 h-4" />
-            </Button>
-          </div> */}
           <div className="flex gap-4 flex-col">
             <h1 className="text-5xl md:text-7xl max-w-2xl tracking-tighter text-center font-regular">
               <span className="text-primary">Tu AI CFO para:</span>
@@ -74,13 +70,8 @@ function Hero() {
             </p>
           </div>
           <div className="flex md:flex-row flex-col gap-3">
-            {/* <Button size="lg" className="gap-4" variant="outline">
-              Jump on a call <PhoneCall className="w-4 h-4" />
-            </Button>
-            <Button size="lg" className="gap-4">
-              Sign up here <MoveRight className="w-4 h-4" />
-            </Button> */}
             <Button
+              onClick={() => (window.location.href = "/contact")}
               variant="expandIcon"
               size="lg"
               Icon={() => <PhoneCall className="h-4 w-4" />}
@@ -88,7 +79,11 @@ function Hero() {
             >
               Agenda una llamada
             </Button>
-            <ButtonColorful>Sign up here</ButtonColorful>
+            <ButtonColorful
+              onClick={() => (window.location.href = "https://app.tesoria.ai")}
+            >
+              Ingresa a tu cuenta
+            </ButtonColorful>
           </div>
         </div>
       </div>

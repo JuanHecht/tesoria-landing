@@ -52,7 +52,7 @@ export const Card = ({
           scale,
           top: `calc(-5vh + ${i * 25}px)`,
         }}
-        className={`flex flex-col relative -top-[25%] h-[450px] w-[90%] md:w-[70%] max-w-sm md:max-w-none rounded-md p-6 md:p-10 origin-top`}
+        className={`flex flex-col relative -top-[25%] h-[450px] w-[90%] md:w-[70%] max-w-sm md:max-w-none rounded-lg p-6 md:p-10 origin-top`}
       >
         <h2 className="text-2xl text-center font-semibold">{title}</h2>
         <div
@@ -101,7 +101,17 @@ const Component = ({ projects }: ComponentRootProps) => {
   });
 
   return (
-    <ReactLenis root>
+    <ReactLenis
+      root
+      options={{
+        lerp: 0.05,
+        duration: 1.2,
+        smoothWheel: true,
+        touchMultiplier: 2,
+        infinite: false,
+        autoRaf: true,
+      }}
+    >
       <main ref={container}>
         <>
           {/* <section className="text-white h-[70vh] w-full bg-slate-950 grid place-content-center">
