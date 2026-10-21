@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const BANCOS = [
   { n: "BBVA", c: "#004481" },
@@ -17,6 +17,9 @@ const FUENTES = [
   { k: "xl", hoy: "¿Cuál es la versión buena? ¿Quién la actualiza?", con: "Lo que vivía en veinte archivos ahora vive en un solo lugar." },
 ] as const;
 
+// Avance del scroll (0–1 dentro de la sección fija) en el que voltea cada tarjeta.
+const UMBRALES = [0.18, 0.34, 0.5, 0.66];
+
 function Marca({ k }: { k: string }) {
   if (k === "sat") return <img src="/como-funciona/sat.png" alt="SAT" />;
   if (k === "erp") return <span className="fu-wm">Tu ERP</span>;
@@ -31,75 +34,115 @@ function Marca({ k }: { k: string }) {
 
 export function Fuentes() {
   const [f, setF] = useState([false, false, false, false]);
+  const pin = useRef<HTMLDivElement>(null);
+  const stick = useRef<HTMLDivElement>(null);
+  const pasados = useRef(-1);
+
+  // La sección se queda fija mientras el scroll voltea las tarjetas de una en una.
+  useEffect(() => {
+    const p = pin.current;
+    const s = stick.current;
+    if (!p || !s) return;
+    let raf = 0;
+    const medir = () => {
+      raf = 0;
+      const vh = window.innerHeight;
+      s.style.top = Math.min(0, vh - s.offsetHeight) + "px";
+      const r = p.getBoundingClientRect();
+      const recorrido = r.height - Math.max(vh, s.offsetHeight);
+      const avance = recorrido > 0 ? Math.min(1, Math.max(0, -r.top / recorrido)) : 1;
+      const n = UMBRALES.filter((u) => avance >= u).length;
+      if (n !== pasados.current) {
+        pasados.current = n;
+        setF([0, 1, 2, 3].map((i) => i < n));
+      }
+    };
+    const pedir = () => {
+      if (!raf) raf = requestAnimationFrame(medir);
+    };
+    medir();
+    window.addEventListener("scroll", pedir, { passive: true });
+    window.addEventListener("resize", pedir);
+    return () => {
+      window.removeEventListener("scroll", pedir);
+      window.removeEventListener("resize", pedir);
+      cancelAnimationFrame(raf);
+    };
+  }, []);
+
   const n = f.filter(Boolean).length;
   const todas = n === 4;
   const flip = (i: number) => setF((prev) => prev.map((v, j) => (j === i ? !v : v)));
 
   return (
-    <div>
-      <div className="fu-head">
-        <div>
-          <div className="v-ov">{todas ? "Cómo lo resuelve Tesoria" : "El problema"}</div>
-          <h2 className="v-h2 fu-h2">
-            {todas ? "Tesoria las junta y trabaja encima de ellas." : "Hoy la respuesta está repartida en cuatro lugares."}
-          </h2>
-        </div>
-        <div className="fu-sw" role="group" aria-label="Comparar">
-          <button className={todas ? "" : "on"} onClick={() => setF([false, false, false, false])}>Hoy</button>
-          <button className={todas ? "on" : ""} onClick={() => setF([true, true, true, true])}>Con Tesoria</button>
-        </div>
-      </div>
+    <div className="fu-pin" ref={pin}>
+      <div className="fu-stick" ref={stick}>
+        <div className="v-in fu-in">
+          <div className="fu-head">
+            <div>
+              <div className="v-ov">{todas ? "Cómo lo resuelve Tesoria" : "El problema"}</div>
+              <h2 className="v-h2 fu-h2">
+                {todas ? "Tesoria las junta y trabaja encima de ellas." : "Hoy la respuesta está repartida en cuatro lugares."}
+              </h2>
+            </div>
+            <div className="fu-sw" role="group" aria-label="Comparar">
+              <button className={todas ? "" : "on"} onClick={() => setF([false, false, false, false])}>Hoy</button>
+              <button className={todas ? "on" : ""} onClick={() => setF([true, true, true, true])}>Con Tesoria</button>
+            </div>
+          </div>
 
-      <div className={"fu-band " + (n > 0 ? "on" : "off")}>
-        {n > 0 ? (
-          <>
-            <div className="v-logo"><img src="/como-funciona/mark-white.svg" alt="" />TESORIA</div>
-            <p><b>Una sola fuente de verdad, al día.</b> Tesoria se conecta a tu ERP y al SAT, trabaja encima de ellos, y desde aquí cobras y pagas.</p>
-          </>
-        ) : (
-          <>
-            <div className="fu-q">¿Y quién lo junta?</div>
-            <p>Tú, a mano, cada semana. Y aun así la respuesta llega tarde.</p>
-          </>
-        )}
-        <span className="fu-n">{n} de 4 en un lugar</span>
-      </div>
+          <div className={"fu-band " + (n > 0 ? "on" : "off")}>
+            {n > 0 ? (
+              <>
+                <div className="v-logo"><img src="/como-funciona/mark-white.svg" alt="" />TESORIA</div>
+                <p><b>Una sola fuente de verdad, al día.</b> Tesoria se conecta a tu ERP y al SAT, trabaja encima de ellos, y desde aquí cobras y pagas.</p>
+              </>
+            ) : (
+              <>
+                <div className="fu-q">¿Y quién lo junta?</div>
+                <p>Tú, a mano, cada semana. Y aun así la respuesta llega tarde.</p>
+              </>
+            )}
+            <span className="fu-n">{n} de 4 en un lugar</span>
+          </div>
 
-      <div className="fu-grid">
-        {FUENTES.map((d, i) => (
-          <button key={d.k} className={"fu-c " + (f[i] ? "done" : "t" + i)} onClick={() => flip(i)} aria-pressed={f[i]}>
-            <div className="fu-mark"><Marca k={d.k} /></div>
-            {d.k === "erp" && (
-              <div className="lg-row">
-                <span className="lg-sap"><i>SAP</i>Business One</span>
-                <span className="lg-ns"><small>ORACLE</small>NetSuite</span>
-                <span className="lg-plus">+</span>
-              </div>
-            )}
-            {d.k === "bank" && (
-              <div className="lg-bk">
-                {BANCOS.map((b) => (
-                  <span key={b.n} style={{ color: b.c }}>{b.n}</span>
-                ))}
-              </div>
-            )}
-            {d.k === "xl" && !f[i] && (
-              <div className="fu-files">
-                <div className="fu-file">Flujo_2026_FINAL_v3.xlsx</div>
-                <div className="fu-file">Calendario pagos (copia).xlsx</div>
-                <div className="fu-file">Conciliación sep NO MOVER.xlsx</div>
-                <div className="fu-file x">+ 14 archivos más</div>
-              </div>
-            )}
-            <p className={"fu-txt" + (f[i] ? " con" : "")}>{f[i] ? d.con : d.hoy}</p>
-            <div className="fu-tag">{f[i] ? "✓ En Tesoria" : "Toca para ver con Tesoria →"}</div>
-          </button>
-        ))}
-      </div>
-      <div className="fu-hint">
-        {todas
-          ? "Tu ERP sigue siendo tu fuente de verdad. Tesoria la mantiene al día y la vuelve operable."
-          : "Toca cada fuente, o cambia a «Con Tesoria»."}
+          <div className="fu-grid">
+            {FUENTES.map((d, i) => (
+              <button key={d.k} className={"fu-c " + (f[i] ? "done" : "t" + i)} onClick={() => flip(i)} aria-pressed={f[i]}>
+                <div className="fu-mark"><Marca k={d.k} /></div>
+                {d.k === "erp" && (
+                  <div className="lg-row">
+                    <span className="lg-sap"><i>SAP</i>Business One</span>
+                    <span className="lg-ns"><small>ORACLE</small>NetSuite</span>
+                    <span className="lg-plus">+</span>
+                  </div>
+                )}
+                {d.k === "bank" && (
+                  <div className="lg-bk">
+                    {BANCOS.map((b) => (
+                      <span key={b.n} style={{ color: b.c }}>{b.n}</span>
+                    ))}
+                  </div>
+                )}
+                {d.k === "xl" && !f[i] && (
+                  <div className="fu-files">
+                    <div className="fu-file">Flujo_2026_FINAL_v3.xlsx</div>
+                    <div className="fu-file">Calendario pagos (copia).xlsx</div>
+                    <div className="fu-file">Conciliación sep NO MOVER.xlsx</div>
+                    <div className="fu-file x">+ 14 archivos más</div>
+                  </div>
+                )}
+                <p className={"fu-txt" + (f[i] ? " con" : "")}>{f[i] ? d.con : d.hoy}</p>
+                <div className="fu-tag">{f[i] ? "✓ En Tesoria" : "Toca o sigue bajando →"}</div>
+              </button>
+            ))}
+          </div>
+          <div className="fu-hint">
+            {todas
+              ? "Tu ERP sigue siendo tu fuente de verdad. Tesoria la mantiene al día y la vuelve operable."
+              : "Sigue bajando para ver cada fuente con Tesoria."}
+          </div>
+        </div>
       </div>
     </div>
   );

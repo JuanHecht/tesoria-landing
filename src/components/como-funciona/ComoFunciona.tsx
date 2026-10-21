@@ -15,6 +15,8 @@ import { Escenario } from "./Escenario";
 import { Formulario, type Tipo } from "./Formulario";
 import { corta, fechaDe, larga, sinMovimiento } from "./util";
 
+const prev = (c: string) => ({ "--prev": `var(--${c})` }) as React.CSSProperties;
+
 const CAPITULOS = [
   { id: "problema", t: "El problema" },
   { id: "entra", t: "Cobranza" },
@@ -45,14 +47,31 @@ export function ComoFunciona({ hoy }: { hoy: string }) {
         }),
       { threshold: 0.15, rootMargin: "0px 0px -8% 0px" }
     );
-    el.querySelectorAll(".rv,.grow").forEach((n) => rv.observe(n));
+    el.querySelectorAll(".fade,.grow").forEach((n) => rv.observe(n));
+    // Cada sección "se pinta" de su color al entrar: una cortina del color anterior se retira.
+    const pinta = new IntersectionObserver(
+      (es) =>
+        es.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("in");
+            pinta.unobserve(e.target);
+          }
+        }),
+      { rootMargin: "0px 0px -30% 0px" }
+    );
+    el.querySelectorAll(".pinta").forEach((n) => pinta.observe(n));
     const sec = new IntersectionObserver(
-      (es) => es.forEach((e) => e.isIntersecting && setCap(e.target.getAttribute("data-ch") || "")),
+      (es) =>
+        es.forEach((e) => {
+          if (!e.isIntersecting) return;
+          setCap(e.target.getAttribute("data-ch") || "");
+        }),
       { rootMargin: "-50% 0px -50% 0px" }
     );
     el.querySelectorAll("[data-ch]").forEach((n) => sec.observe(n));
     return () => {
       rv.disconnect();
+      pinta.disconnect();
       sec.disconnect();
       lenis?.destroy();
     };
@@ -100,13 +119,13 @@ export function ComoFunciona({ hoy }: { hoy: string }) {
         </div>
       </div>
 
-      <section className="ch c-cream" id="problema" data-ch="problema">
-        <div className="v-in rv"><Fuentes /></div>
+      <section className="ch pinta c-cream fu-sec" id="problema" style={prev("tesoria-purple")} data-ch="problema">
+        <Fuentes />
       </section>
 
-      <section className="ch c-white" id="entra" data-ch="entra">
+      <section className="ch pinta c-white" id="entra" style={prev("tesoria-cream")} data-ch="entra">
         <div className="v-in v-feat">
-          <div className="v-txt rv">
+          <div className="v-txt fade">
             <div className="v-ov v-num"><i>01</i>Lo que entra · cobranza</div>
             <h2 className="v-h2">Sabes quién te pagó, sin buscarlo.</h2>
             <ul className="v-list">
@@ -119,9 +138,9 @@ export function ComoFunciona({ hoy }: { hoy: string }) {
         </div>
       </section>
 
-      <section className="ch c-cream" id="sale" data-ch="sale">
+      <section className="ch pinta c-blush" id="sale" style={prev("white")} data-ch="sale">
         <div className="v-in v-feat rev">
-          <div className="v-txt rv">
+          <div className="v-txt fade">
             <div className="v-ov v-num"><i>02</i>Lo que sale · pagos</div>
             <h2 className="v-h2">Pagas desde Tesoria lo que aprobaste.</h2>
             <ul className="v-list">
@@ -135,9 +154,9 @@ export function ComoFunciona({ hoy }: { hoy: string }) {
         </div>
       </section>
 
-      <section className="ch c-white" id="viene" data-ch="viene">
+      <section className="ch pinta c-white" id="viene" style={prev("tesoria-blush")} data-ch="viene">
         <div className="v-in">
-          <div className="rv">
+          <div className="fade">
             <div className="v-ov v-num"><i>03</i>Lo que viene · flujo</div>
             <h2 className="v-h2" style={{ maxWidth: 860 }}>Tus próximas 13 semanas salen de una suma, no de un supuesto.</h2>
             <p className="v-p">
@@ -147,11 +166,11 @@ export function ComoFunciona({ hoy }: { hoy: string }) {
           </div>
           <div className="v-eq">
             <div className="v-cell grow"><div className="v-k">Hoy en bancos</div><div className="v-big">$19.2 M</div><div className="v-cap">todas tus cuentas</div></div>
-            <div className="v-op rv d1">+</div>
+            <div className="v-op fade d1">+</div>
             <div className="v-cell grow d1"><div className="v-k">Por cobrar</div><div className="v-big pos">$38.6 M</div><div className="v-cap">facturas emitidas, pedidos y presupuesto de ventas</div></div>
-            <div className="v-op rv d1">−</div>
+            <div className="v-op fade d1">−</div>
             <div className="v-cell grow d2"><div className="v-k">Por pagar</div><div className="v-big neg">$43.4 M</div><div className="v-cap">facturas, órdenes de compra, nómina e impuestos</div></div>
-            <div className="v-op rv d2">=</div>
+            <div className="v-op fade d2">=</div>
             <div className="v-cell res grow d2"><div className="v-k">El {corta(fechaDe(hoy, 91))}</div><div className="v-big">$14.4 M</div><div className="v-cap">y tu punto más bajo, semana por semana</div></div>
           </div>
           <div className="v-tgl">
@@ -162,9 +181,9 @@ export function ComoFunciona({ hoy }: { hoy: string }) {
         </div>
       </section>
 
-      <section className="ch c-purple" id="decide" data-ch="decide">
+      <section className="ch pinta c-purple" id="decide" style={prev("white")} data-ch="decide">
         <div className="v-in">
-          <div className="rv">
+          <div className="fade">
             <div className="v-ov v-num"><i>04</i>Para decidir · escenarios</div>
             <h2 className="v-h2">Prueba la decisión antes de tomarla.</h2>
             <p className="v-p" style={{ maxWidth: 760 }}>
@@ -176,13 +195,13 @@ export function ComoFunciona({ hoy }: { hoy: string }) {
         </div>
       </section>
 
-      <section className="ch c-white" data-ch="">
+      <section className="ch pinta c-cream" data-ch="" style={prev("tesoria-purple")}>
         <div className="v-in">
-          <div className="rv">
+          <div>
             <div className="v-ov">Cómo arranca</div>
             <h2 className="v-h2">No cambias de sistema. Sumas una cuenta operativa.</h2>
           </div>
-          <div className="v-steps grow d1">
+          <div className="v-steps">
             <div className="v-step"><i>01</i><h4>Conectamos tu ERP y el SAT</h4><p>Tus facturas y tus cuentas por pagar y por cobrar entran solas.</p></div>
             <div className="v-step"><i>02</i><h4>Abrimos tu cuenta operativa</h4><p>Desde ahí cobras y pagas, y todo nace conciliado.</p></div>
             <div className="v-step"><i>03</i><h4>Ves tu flujo</h4><p>Subes tus otros bancos y tienes tus próximas 13 semanas, al día.</p></div>
@@ -190,8 +209,8 @@ export function ComoFunciona({ hoy }: { hoy: string }) {
         </div>
       </section>
 
-      <section className="ch v-end" id="agendar" data-ch="">
-        <div className="v-in rv">
+      <section className="ch pinta v-end" id="agendar" style={prev("tesoria-cream")} data-ch="">
+        <div className="v-in">
           <h2>La respuesta ya está en tu empresa.</h2>
           <p>En 30 minutos te enseñamos cómo se vería tu flujo con Tesoria.</p>
           {ctas("cierre")}
