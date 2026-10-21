@@ -458,3 +458,8 @@
 
 /* Saltos suaves al dar clic en un capítulo; el scroll normal es nativo */
 @media (prefers-reduced-motion: no-preference) { html:has(.cf) { scroll-behavior: smooth; } }
+/* Como la presentación de Manijauto: al soltar el scroll cerca de una sección, se acomoda sola al inicio */
+html:has(.cf) { scroll-snap-type: y proximity; }
+.cf .v-top, .cf .ch { scroll-snap-align: start; }
+.cf .fu-sec { scroll-snap-align: none; }
+.cf .fu-pin { scroll-snap-align: start; }
