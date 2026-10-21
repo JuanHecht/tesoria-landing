@@ -61,6 +61,7 @@ export function Navbar() {
   const navLinksData = [
     { label: "Problema", href: "/#problem" },
     { label: "Solución", href: "/#solution" },
+    { label: "Cómo funciona", href: "/como-funciona" },
     { label: "Contacto", href: "/#contact" },
   ];
 

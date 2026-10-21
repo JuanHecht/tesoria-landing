@@ -30,6 +30,7 @@ export const CustomFooter = () => (
     mainLinks={[
       { href: "/#problem", label: "Problema" },
       { href: "/#solution", label: "Solución" },
+      { href: "/como-funciona", label: "Cómo funciona" },
       { href: "/contact", label: "Contacto" },
     ]}
     legalLinks={[
