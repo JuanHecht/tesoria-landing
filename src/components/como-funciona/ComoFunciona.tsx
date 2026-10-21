@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import Lenis from "lenis";
+import "lenis/dist/lenis.css";
 import { track } from "@vercel/analytics";
 import "./como-funciona.css";
 import { Grafica } from "./Grafica";
@@ -11,7 +13,7 @@ import { Pagos } from "./Pagos";
 import { Flujo } from "./Flujo";
 import { Escenario } from "./Escenario";
 import { Formulario, type Tipo } from "./Formulario";
-import { corta, fechaDe, larga } from "./util";
+import { corta, fechaDe, larga, sinMovimiento } from "./util";
 
 const prev = (c: string) => ({ "--prev": `var(--${c})` }) as React.CSSProperties;
 
@@ -34,6 +36,8 @@ export function ComoFunciona({ hoy }: { hoy: string }) {
     const el = root.current;
     if (!el || !("IntersectionObserver" in window)) return;
     setJs(true);
+    // Scroll suave pero ágil en compu; el touch se queda nativo.
+    const lenis = sinMovimiento() ? null : new Lenis({ autoRaf: true, anchors: true, lerp: 0.2, wheelMultiplier: 1.1 });
     const rv = new IntersectionObserver(
       (es) =>
         es.forEach((e) => {
@@ -69,6 +73,7 @@ export function ComoFunciona({ hoy }: { hoy: string }) {
     return () => {
       rv.disconnect();
       pinta.disconnect();
+      lenis?.destroy();
       sec.disconnect();
     };
   }, []);
