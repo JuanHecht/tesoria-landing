@@ -44,7 +44,7 @@ export function ComoFunciona({ hoy }: { hoy: string }) {
         }),
       { threshold: 0.15, rootMargin: "0px 0px -8% 0px" }
     );
-    el.querySelectorAll(".fade,.grow").forEach((n) => rv.observe(n));
+    el.querySelectorAll(".fade,.rv,.grow").forEach((n) => rv.observe(n));
     // Al pasar de las fuentes a cobranza la pantalla "se pinta": una cortina morada se retira.
     const pinta = new IntersectionObserver(
       (es) =>
@@ -121,7 +121,7 @@ export function ComoFunciona({ hoy }: { hoy: string }) {
 
       <section className="ch pinta c-white" id="entra" style={prev("tesoria-purple")} data-ch="entra">
         <div className="v-in v-feat">
-          <div className="v-txt fade">
+          <div className="v-txt rv">
             <div className="v-ov v-num"><i>01</i>Lo que entra · cobranza</div>
             <h2 className="v-h2">Sabes quién te pagó, sin buscarlo.</h2>
             <ul className="v-list">
@@ -136,7 +136,7 @@ export function ComoFunciona({ hoy }: { hoy: string }) {
 
       <section className="ch c-cream" id="sale" data-ch="sale">
         <div className="v-in v-feat rev">
-          <div className="v-txt fade">
+          <div className="v-txt rv">
             <div className="v-ov v-num"><i>02</i>Lo que sale · pagos</div>
             <h2 className="v-h2">Pagas desde Tesoria lo que aprobaste.</h2>
             <ul className="v-list">
@@ -179,7 +179,7 @@ export function ComoFunciona({ hoy }: { hoy: string }) {
 
       <section className="ch c-purple" id="decide" data-ch="decide">
         <div className="v-in">
-          <div className="fade">
+          <div className="rv">
             <div className="v-ov v-num"><i>04</i>Para decidir · escenarios</div>
             <h2 className="v-h2">Prueba la decisión antes de tomarla.</h2>
             <p className="v-p" style={{ maxWidth: 760 }}>
@@ -219,7 +219,7 @@ export function ComoFunciona({ hoy }: { hoy: string }) {
         </div>
       </section>
 
-      <nav className={"v-pill" + (cap ? "" : " hide")} aria-label="Secciones">
+      <nav className={"v-pill" + (cap ? "" : " hide") + (cap === "problema" ? " en-problema" : "")} aria-label="Secciones">
         {CAPITULOS.map((c, i) => (
           <a key={c.id} className={c.id === cap ? "on" : ""} href={"#" + c.id}>
             <i>0{i + 1}</i>

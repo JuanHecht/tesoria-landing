@@ -18,7 +18,7 @@ const FUENTES = [
 ] as const;
 
 // Avance del scroll (0–1 dentro de la sección fija) en el que voltea cada tarjeta.
-const UMBRALES = [0.18, 0.34, 0.5, 0.66];
+const UMBRALES = [0.12, 0.32, 0.52, 0.72];
 
 function Marca({ k }: { k: string }) {
   if (k === "sat") return <img src="/como-funciona/sat.png" alt="SAT" />;
@@ -44,12 +44,17 @@ export function Fuentes() {
     const s = stick.current;
     if (!p || !s) return;
     let raf = 0;
+    let alto = 0;
+    let vh = window.innerHeight;
+    const ajustar = () => {
+      vh = window.innerHeight;
+      alto = s.offsetHeight;
+      s.style.top = Math.min(0, vh - alto) + "px";
+    };
     const medir = () => {
       raf = 0;
-      const vh = window.innerHeight;
-      s.style.top = Math.min(0, vh - s.offsetHeight) + "px";
       const r = p.getBoundingClientRect();
-      const recorrido = r.height - Math.max(vh, s.offsetHeight);
+      const recorrido = r.height - Math.max(vh, alto);
       const avance = recorrido > 0 ? Math.min(1, Math.max(0, -r.top / recorrido)) : 1;
       const n = UMBRALES.filter((u) => avance >= u).length;
       if (n !== pasados.current) {
@@ -60,12 +65,19 @@ export function Fuentes() {
     const pedir = () => {
       if (!raf) raf = requestAnimationFrame(medir);
     };
+    const ro = new ResizeObserver(() => {
+      ajustar();
+      pedir();
+    });
+    ro.observe(s);
+    ajustar();
     medir();
     window.addEventListener("scroll", pedir, { passive: true });
-    window.addEventListener("resize", pedir);
+    window.addEventListener("resize", ajustar);
     return () => {
+      ro.disconnect();
       window.removeEventListener("scroll", pedir);
-      window.removeEventListener("resize", pedir);
+      window.removeEventListener("resize", ajustar);
       cancelAnimationFrame(raf);
     };
   }, []);
@@ -74,16 +86,22 @@ export function Fuentes() {
   const todas = n === 4;
   const flip = (i: number) => setF((prev) => prev.map((v, j) => (j === i ? !v : v)));
 
+  const vis = (on: boolean) => (on ? "" : "off");
+
   return (
     <div className="fu-pin" ref={pin}>
       <div className="fu-stick" ref={stick}>
         <div className="v-in fu-in">
           <div className="fu-head">
-            <div>
-              <div className="v-ov">{todas ? "Cómo lo resuelve Tesoria" : "El problema"}</div>
-              <h2 className="v-h2 fu-h2">
-                {todas ? "Tesoria las junta y trabaja encima de ellas." : "Hoy la respuesta está repartida en cuatro lugares."}
-              </h2>
+            <div className="fu-stack">
+              <div className={vis(!todas)}>
+                <div className="v-ov">El problema</div>
+                <h2 className="v-h2 fu-h2">Hoy la respuesta está repartida en cuatro lugares.</h2>
+              </div>
+              <div className={vis(todas)} aria-hidden={!todas}>
+                <div className="v-ov">Cómo lo resuelve Tesoria</div>
+                <h2 className="v-h2 fu-h2">Tesoria las junta y trabaja encima de ellas.</h2>
+              </div>
             </div>
             <div className="fu-sw" role="group" aria-label="Comparar">
               <button className={todas ? "" : "on"} onClick={() => setF([false, false, false, false])}>Hoy</button>
@@ -92,17 +110,16 @@ export function Fuentes() {
           </div>
 
           <div className={"fu-band " + (n > 0 ? "on" : "off")}>
-            {n > 0 ? (
-              <>
-                <div className="v-logo"><img src="/como-funciona/mark-white.svg" alt="" />TESORIA</div>
-                <p><b>Una sola fuente de verdad, al día.</b> Tesoria se conecta a tu ERP y al SAT, trabaja encima de ellos, y desde aquí cobras y pagas.</p>
-              </>
-            ) : (
-              <>
+            <div className="fu-stack">
+              <div className={"fu-bi " + vis(n === 0)}>
                 <div className="fu-q">¿Y quién lo junta?</div>
                 <p>Tú, a mano, cada semana. Y aun así la respuesta llega tarde.</p>
-              </>
-            )}
+              </div>
+              <div className={"fu-bi " + vis(n > 0)}>
+                <div className="v-logo"><img src="/como-funciona/mark-white.svg" alt="" />TESORIA</div>
+                <p><b>Una sola fuente de verdad, al día.</b> Tesoria se conecta a tu ERP y al SAT, trabaja encima de ellos, y desde aquí cobras y pagas.</p>
+              </div>
+            </div>
             <span className="fu-n">{n} de 4 en un lugar</span>
           </div>
 
@@ -124,15 +141,22 @@ export function Fuentes() {
                     ))}
                   </div>
                 )}
-                {d.k === "xl" && !f[i] && (
-                  <div className="fu-files">
-                    <div className="fu-file">Flujo_2026_FINAL_v3.xlsx</div>
-                    <div className="fu-file">Calendario pagos (copia).xlsx</div>
-                    <div className="fu-file">Conciliación sep NO MOVER.xlsx</div>
-                    <div className="fu-file x">+ 14 archivos más</div>
+                <div className="fu-stack fu-faces">
+                  <div className={vis(!f[i])}>
+                    {d.k === "xl" && (
+                      <div className="fu-files">
+                        <div className="fu-file">Flujo_2026_FINAL_v3.xlsx</div>
+                        <div className="fu-file">Calendario pagos (copia).xlsx</div>
+                        <div className="fu-file">Conciliación sep NO MOVER.xlsx</div>
+                        <div className="fu-file x">+ 14 archivos más</div>
+                      </div>
+                    )}
+                    <p className="fu-txt">{d.hoy}</p>
                   </div>
-                )}
-                <p className={"fu-txt" + (f[i] ? " con" : "")}>{f[i] ? d.con : d.hoy}</p>
+                  <div className={vis(f[i])}>
+                    <p className="fu-txt con">{d.con}</p>
+                  </div>
+                </div>
                 <div className="fu-tag">{f[i] ? "✓ En Tesoria" : "Toca o sigue bajando →"}</div>
               </button>
             ))}
