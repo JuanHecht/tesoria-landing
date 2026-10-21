@@ -140,7 +140,7 @@
 .cf .v-foot a { color: var(--purple-200); }
 
 /* Píldora de capítulos (escritorio/iPad) · franja fija arriba (celular) */
-.cf .v-pill { position: fixed; left: 50%; bottom: 20px; z-index: 50; display: flex; gap: 4px; padding: 6px; border-radius: var(--radius-pill); background: rgba(40, 17, 43, 0.92); backdrop-filter: blur(8px); box-shadow: 0 12px 32px -10px rgba(40, 17, 43, 0.55); transform: translate(-50%, 0); transition: opacity 0.35s, transform 0.35s; }
+.cf .v-pill { position: fixed; left: 50%; bottom: 20px; z-index: 50; display: flex; gap: 4px; padding: 6px; border-radius: var(--radius-pill); background: rgba(40, 17, 43, 0.95); box-shadow: 0 12px 32px -10px rgba(40, 17, 43, 0.55); transform: translate(-50%, 0); transition: opacity 0.35s, transform 0.35s; }
 .cf .v-pill.hide { opacity: 0; transform: translate(-50%, 24px); pointer-events: none; }
 .cf .v-pill a { display: flex; align-items: center; gap: 7px; font: 600 13px/1 var(--font-display); color: var(--purple-200); padding: 10px 14px; border-radius: var(--radius-pill); white-space: nowrap; transition: background 0.25s, color 0.25s; }
 .cf .v-pill a i { font: 600 11px/1 var(--font-mono); font-style: normal; opacity: 0.7; }
@@ -148,10 +148,10 @@
 .cf .v-pill a:not(.on):hover { color: var(--white); }
 .cf .v-pill .bar { display: none; }
 
-/* Cambio de sección: la pantalla se pinta del color nuevo (una cortina del color anterior se retira hacia abajo) */
+/* Un solo cambio "pintado": de las fuentes a cobranza (cortina morada que se retira hacia abajo) */
 .cf .ch > * { position: relative; z-index: 1; }
 @media (prefers-reduced-motion: no-preference) {
-  .cf.js .pinta::before { content: ""; position: absolute; inset: 0; z-index: 0; background: var(--prev); transform-origin: bottom; transition: transform 0.9s cubic-bezier(0.7, 0, 0.2, 1); }
+  .cf.js .pinta::before { content: ""; position: absolute; inset: 0; z-index: 0; background: var(--prev); transform-origin: bottom; transition: transform 1.1s cubic-bezier(0.7, 0, 0.2, 1); }
   .cf.js .pinta.in::before { transform: scaleY(0); }
 }
 
@@ -443,3 +443,6 @@
   .cf .v-pill a.on { display: flex; background: none; color: var(--white); font-size: 14px; }
   .cf .v-pill .bar { display: block; position: absolute; left: 0; bottom: 0; height: 2px; background: var(--tesoria-blush); transition: width 0.4s var(--ease-out); }
 }
+
+/* Saltos suaves al dar clic en un capítulo; el scroll normal es nativo */
+@media (prefers-reduced-motion: no-preference) { html:has(.cf) { scroll-behavior: smooth; } }

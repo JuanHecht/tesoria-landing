@@ -2,8 +2,6 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import Lenis from "lenis";
-import "lenis/dist/lenis.css";
 import { track } from "@vercel/analytics";
 import "./como-funciona.css";
 import { Grafica } from "./Grafica";
@@ -13,7 +11,7 @@ import { Pagos } from "./Pagos";
 import { Flujo } from "./Flujo";
 import { Escenario } from "./Escenario";
 import { Formulario, type Tipo } from "./Formulario";
-import { corta, fechaDe, larga, sinMovimiento } from "./util";
+import { corta, fechaDe, larga } from "./util";
 
 const prev = (c: string) => ({ "--prev": `var(--${c})` }) as React.CSSProperties;
 
@@ -36,7 +34,6 @@ export function ComoFunciona({ hoy }: { hoy: string }) {
     const el = root.current;
     if (!el || !("IntersectionObserver" in window)) return;
     setJs(true);
-    const lenis = sinMovimiento() ? null : new Lenis({ autoRaf: true, anchors: true, lerp: 0.1 });
     const rv = new IntersectionObserver(
       (es) =>
         es.forEach((e) => {
@@ -48,7 +45,7 @@ export function ComoFunciona({ hoy }: { hoy: string }) {
       { threshold: 0.15, rootMargin: "0px 0px -8% 0px" }
     );
     el.querySelectorAll(".fade,.grow").forEach((n) => rv.observe(n));
-    // Cada sección "se pinta" de su color al entrar: una cortina del color anterior se retira.
+    // Al pasar de las fuentes a cobranza la pantalla "se pinta": una cortina morada se retira.
     const pinta = new IntersectionObserver(
       (es) =>
         es.forEach((e) => {
@@ -73,7 +70,6 @@ export function ComoFunciona({ hoy }: { hoy: string }) {
       rv.disconnect();
       pinta.disconnect();
       sec.disconnect();
-      lenis?.destroy();
     };
   }, []);
 
@@ -119,11 +115,11 @@ export function ComoFunciona({ hoy }: { hoy: string }) {
         </div>
       </div>
 
-      <section className="ch pinta c-cream fu-sec" id="problema" style={prev("tesoria-purple")} data-ch="problema">
+      <section className="ch c-cream fu-sec" id="problema" data-ch="problema">
         <Fuentes />
       </section>
 
-      <section className="ch pinta c-white" id="entra" style={prev("tesoria-cream")} data-ch="entra">
+      <section className="ch pinta c-white" id="entra" style={prev("tesoria-purple")} data-ch="entra">
         <div className="v-in v-feat">
           <div className="v-txt fade">
             <div className="v-ov v-num"><i>01</i>Lo que entra · cobranza</div>
@@ -138,7 +134,7 @@ export function ComoFunciona({ hoy }: { hoy: string }) {
         </div>
       </section>
 
-      <section className="ch pinta c-blush" id="sale" style={prev("white")} data-ch="sale">
+      <section className="ch c-cream" id="sale" data-ch="sale">
         <div className="v-in v-feat rev">
           <div className="v-txt fade">
             <div className="v-ov v-num"><i>02</i>Lo que sale · pagos</div>
@@ -154,7 +150,7 @@ export function ComoFunciona({ hoy }: { hoy: string }) {
         </div>
       </section>
 
-      <section className="ch pinta c-white" id="viene" style={prev("tesoria-blush")} data-ch="viene">
+      <section className="ch c-white" id="viene" data-ch="viene">
         <div className="v-in">
           <div className="fade">
             <div className="v-ov v-num"><i>03</i>Lo que viene · flujo</div>
@@ -181,7 +177,7 @@ export function ComoFunciona({ hoy }: { hoy: string }) {
         </div>
       </section>
 
-      <section className="ch pinta c-purple" id="decide" style={prev("white")} data-ch="decide">
+      <section className="ch c-purple" id="decide" data-ch="decide">
         <div className="v-in">
           <div className="fade">
             <div className="v-ov v-num"><i>04</i>Para decidir · escenarios</div>
@@ -195,13 +191,13 @@ export function ComoFunciona({ hoy }: { hoy: string }) {
         </div>
       </section>
 
-      <section className="ch pinta c-cream" data-ch="" style={prev("tesoria-purple")}>
+      <section className="ch c-white" data-ch="">
         <div className="v-in">
           <div>
             <div className="v-ov">Cómo arranca</div>
             <h2 className="v-h2">No cambias de sistema. Sumas una cuenta operativa.</h2>
           </div>
-          <div className="v-steps">
+          <div className="v-steps grow d1">
             <div className="v-step"><i>01</i><h4>Conectamos tu ERP y el SAT</h4><p>Tus facturas y tus cuentas por pagar y por cobrar entran solas.</p></div>
             <div className="v-step"><i>02</i><h4>Abrimos tu cuenta operativa</h4><p>Desde ahí cobras y pagas, y todo nace conciliado.</p></div>
             <div className="v-step"><i>03</i><h4>Ves tu flujo</h4><p>Subes tus otros bancos y tienes tus próximas 13 semanas, al día.</p></div>
@@ -209,7 +205,7 @@ export function ComoFunciona({ hoy }: { hoy: string }) {
         </div>
       </section>
 
-      <section className="ch pinta v-end" id="agendar" style={prev("tesoria-cream")} data-ch="">
+      <section className="ch v-end" id="agendar" data-ch="">
         <div className="v-in">
           <h2>La respuesta ya está en tu empresa.</h2>
           <p>En 30 minutos te enseñamos cómo se vería tu flujo con Tesoria.</p>
