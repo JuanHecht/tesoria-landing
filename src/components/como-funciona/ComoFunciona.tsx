@@ -42,7 +42,7 @@ export function ComoFunciona({ hoy }: { hoy: string }) {
             rv.unobserve(e.target);
           }
         }),
-      { threshold: 0.15, rootMargin: "0px 0px -8% 0px" }
+      { threshold: 0, rootMargin: "0px 0px 6% 0px" }
     );
     el.querySelectorAll(".fade,.rv,.grow").forEach((n) => rv.observe(n));
     // Al pasar de las fuentes a cobranza la pantalla "se pinta": una cortina morada se retira.

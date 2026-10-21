@@ -18,7 +18,7 @@ const FUENTES = [
 ] as const;
 
 // Avance del scroll (0–1 dentro de la sección fija) en el que voltea cada tarjeta.
-const UMBRALES = [0.12, 0.32, 0.52, 0.72];
+const UMBRALES = [0.1, 0.3, 0.5, 0.7];
 
 function Marca({ k }: { k: string }) {
   if (k === "sat") return <img src="/como-funciona/sat.png" alt="SAT" />;
@@ -56,6 +56,7 @@ export function Fuentes() {
       const r = p.getBoundingClientRect();
       const recorrido = r.height - Math.max(vh, alto);
       const avance = recorrido > 0 ? Math.min(1, Math.max(0, -r.top / recorrido)) : 1;
+      s.style.setProperty("--avance", avance.toFixed(3));
       const n = UMBRALES.filter((u) => avance >= u).length;
       if (n !== pasados.current) {
         pasados.current = n;
@@ -121,6 +122,7 @@ export function Fuentes() {
               </div>
             </div>
             <span className="fu-n">{n} de 4 en un lugar</span>
+            <span className="fu-bar" aria-hidden="true" />
           </div>
 
           <div className="fu-grid">

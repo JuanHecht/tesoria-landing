@@ -157,17 +157,17 @@
 
 /* Aparecer al hacer scroll: solo donde cuenta algo */
 @media (prefers-reduced-motion: no-preference) {
-  .cf.js .fade { opacity: 0; transition: opacity 0.9s ease; }
-  .cf.js .rv { opacity: 0; transform: translateY(36px); transition: opacity 0.8s ease, transform 1s cubic-bezier(0.2, 0.7, 0.2, 1); }
-  .cf.js .grow { opacity: 0; transform: translateY(48px) scale(0.88); transition: opacity 0.9s ease, transform 1.1s cubic-bezier(0.2, 0.7, 0.2, 1); }
-  .cf.js .d1 { transition-delay: 0.15s; }
-  .cf.js .d2 { transition-delay: 0.3s; }
+  .cf.js .fade { opacity: 0; transition: opacity 0.5s ease; }
+  .cf.js .rv { opacity: 0; transform: translateY(28px); transition: opacity 0.45s ease, transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1); }
+  .cf.js .grow { opacity: 0; transform: translateY(36px) scale(0.92); transition: opacity 0.5s ease, transform 0.65s cubic-bezier(0.2, 0.7, 0.2, 1); }
+  .cf.js .d1 { transition-delay: 0.08s; }
+  .cf.js .d2 { transition-delay: 0.16s; }
   .cf.js .in { opacity: 1; transform: none; }
 }
 
 /* ---------- Fuentes (problema → solución) ---------- */
 .cf .fu-sec { padding: 0; }
-.cf .fu-pin { position: relative; height: 230vh; }
+.cf .fu-pin { position: relative; height: 175vh; }
 .cf .fu-stick { position: sticky; top: 0; min-height: 100vh; display: flex; align-items: center; padding: 72px 0; }
 .cf .fu-in { width: 100%; }
 .cf .fu-stack { display: grid; }
@@ -182,7 +182,7 @@
 .cf .fu-sw { display: flex; background: var(--white); border: 1px solid var(--border-1); border-radius: var(--radius-pill); padding: 5px; gap: 4px; box-shadow: 0 8px 24px -12px rgba(40, 17, 43, 0.25); }
 .cf .fu-sw button { font: 600 15px/1 var(--font-display); border: 0; background: transparent; color: var(--ink-600); padding: 13px 20px; border-radius: var(--radius-pill); transition: background 0.25s, color 0.25s; }
 .cf .fu-sw button.on { background: var(--tesoria-purple); color: var(--white); }
-.cf .fu-band { margin-top: 40px; border-radius: var(--radius-2xl); padding: 26px 30px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 28px; align-items: center; transition: background 0.5s, border-color 0.5s, color 0.5s; }
+.cf .fu-band { position: relative; overflow: hidden; margin-top: 40px; border-radius: var(--radius-2xl); padding: 26px 30px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 28px; align-items: center; transition: background 0.5s, border-color 0.5s, color 0.5s; }
 .cf .fu-band.off { background: transparent; border: 2px dashed var(--purple-300); color: var(--ink-600); }
 .cf .fu-band.on { background: var(--tesoria-purple); border: 2px solid var(--tesoria-purple); color: var(--white); }
 .cf .fu-band .v-logo { font-size: 19px; }
@@ -190,6 +190,8 @@
 .cf .fu-band p { margin: 0; font: 500 18px/1.45 var(--font-display); text-wrap: pretty; }
 .cf .fu-band.on p { color: var(--purple-100); }
 .cf .fu-band.on p b { color: var(--white); }
+.cf .fu-bar { position: absolute; left: 0; bottom: 0; height: 4px; width: 100%; transform-origin: left; transform: scaleX(var(--avance, 0)); background: var(--tesoria-blush); }
+.cf .fu-band.off .fu-bar { background: var(--purple-400); }
 .cf .fu-n { font: 600 13px/1 var(--font-mono); padding: 8px 12px; border-radius: var(--radius-pill); white-space: nowrap; }
 .cf .fu-band.off .fu-n { background: var(--purple-50); color: var(--purple-500); }
 .cf .fu-band.on .fu-n { background: rgba(255, 255, 255, 0.14); color: var(--white); }
@@ -350,8 +352,8 @@
 @media (prefers-reduced-motion: no-preference) {
   .cf .gr .gr-draw { clip-path: inset(0 100% 0 0); }
   .cf .gr .gr-pop { opacity: 0; }
-  .cf .gr.on .gr-draw { animation: grReveal 2.4s var(--ease-out) both 0.15s; }
-  .cf .gr.on .gr-pop { animation: grPop 0.5s var(--ease-out) both 2.1s; }
+  .cf .gr.on .gr-draw { animation: grReveal 1.5s var(--ease-out) both 0.1s; }
+  .cf .gr.on .gr-pop { animation: grPop 0.4s var(--ease-out) both 1.3s; }
 }
 @keyframes grReveal { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
 @keyframes grPop { from { opacity: 0; } to { opacity: 1; } }

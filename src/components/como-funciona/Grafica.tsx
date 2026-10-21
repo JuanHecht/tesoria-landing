@@ -43,7 +43,7 @@ export function Grafica({
   modo?: "hero" | "escenario";
   bajo?: boolean;
 }) {
-  const [ref, on] = useVisto<HTMLDivElement>(0.45);
+  const [ref, on] = useVisto<HTMLDivElement>(0.25);
   const esc = modo === "escenario";
   const fut = esc ? BASE.map((v, i) => +(v - delta(i)).toFixed(1)) : BASE;
   const N = PASADO.length + fut.length;
