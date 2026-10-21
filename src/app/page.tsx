@@ -1,104 +1,18 @@
-import { ContainerScroll } from "@/components/ui/container-scroll-animation";
-import Image from "next/image";
-import { Navbar } from "@/components/ui/mini-navbar";
-import { AuroraBackground } from "@/components/ui/aurora-background";
-import { Features } from "@/components/blocks/features-1";
-import { Hero } from "@/components/ui/animated-hero";
-import Component from "@/components/ui/stacking-card";
-import React from "react";
-import { CustomFooter } from "@/components/custom/custom-footer";
-import { CTA } from "@/components/ui/call-to-action";
+import type { Metadata } from "next";
+import { InicioA } from "@/components/inicio/InicioA";
 
-// demo.tsx
-const projects = [
-  {
-    title: "Base: La fundación de la verdad",
-    description:
-      "Todo empieza aquí. El motor que automáticamente recolecta, centraliza y organiza tus datos (SAT y bancos) en una fuente única y confiable.",
-    link: "/frame1.png",
-    color: "#4F3E88",
-  },
-  {
-    title: "Enmedio: Claridad en Tiempo Real",
-    description:
-      'Responde al "¿Dónde estamos ahora?". Te damos visibilidad total de tu flujo de caja y operación en dashboards claros y siempre actualizados.',
-    link: "/frame2.png",
-    color: "var(--accent)",
-  },
-  {
-    title: "Punta: Estrategia a Futuro",
-    description:
-      'Define el "¿Hacia dónde vamos?". Modela escenarios "what-if", proyecta tu runway y toma decisiones de alto nivel sobre tu crecimiento con una visión de largo plazo.',
-    link: "/frame3.png",
-    color: "var(--brand-accent)",
-  },
-];
+// Las fechas de ejemplo se recorren solas: se regenera cada hora.
+export const revalidate = 3600;
+
+export const metadata: Metadata = {
+  title: "Tesoria · Ve venir tu dinero",
+  description:
+    "Tesoria cobra, paga y concilia por ti. Con eso te dice cuánto vas a tener cada semana, trece semanas antes.",
+  alternates: { canonical: "/", languages: { "es-MX": "/", en: "/en", "x-default": "/" } },
+  openGraph: { locale: "es_MX", type: "website", title: "Tesoria · Ve venir tu dinero" },
+};
 
 export default function Home() {
-  return (
-    <div className="flex flex-col">
-      <section className="overflow-hidden">
-        <AuroraBackground>
-          <Navbar />
-          <Hero />
-        </AuroraBackground>
-      </section>
-      <section className="bg-background overflow-hidden">
-        <ContainerScroll
-          titleComponent={
-            <>
-              <h1 className="text-4xl font-semibold text-foreground">
-                Conoce tus números <br />
-                <span className="text-4xl md:text-[6rem] font-bold mt-1 leading-none">
-                  Usando Tesoria
-                </span>
-              </h1>
-            </>
-          }
-        >
-          {/* Mobile/Small screens - show ipad_ss_figma.png */}
-          <Image
-            src="/ipad_ss_figma.png"
-            alt="iPad screenshot"
-            height={720}
-            width={1400}
-            className="block md:hidden mx-auto rounded-2xl object-cover h-full object-left-top"
-            draggable={false}
-          />
-          {/* Desktop/md and larger - show ipad_ss.png */}
-          <Image
-            src="/ipad_horizontal.png"
-            alt="iPad screenshot"
-            height={720}
-            width={1400}
-            className="hidden md:block mx-auto rounded-2xl object-cover h-full object-left-top"
-            draggable={false}
-          />
-        </ContainerScroll>
-        <div id="problem">
-          <Features />
-        </div>
-      </section>
-      <div className="bg-foreground">
-        <section className="bg-foreground py-16 md:py-32" id="solution">
-          <div className="@container mx-auto max-w-5xl px-6 text-background">
-            <div className="text-center">
-              <h2 className="text-balance text-4xl font-semibold lg:text-5xl">
-                Solución de 3 niveles
-              </h2>
-            </div>
-          </div>
-          <Component projects={projects} />
-        </section>
-        <section className="mx-auto py-4" id="contact">
-          <div className="w-full">
-            <CTA />
-          </div>
-        </section>
-        <section className="text-background" id="footer">
-          <CustomFooter />
-        </section>
-      </div>
-    </div>
-  );
+  const hoy = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Mexico_City" }).format(new Date());
+  return <InicioA hoy={hoy} lang="es" />;
 }

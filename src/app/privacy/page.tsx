@@ -8,14 +8,14 @@ function ComponentDemo() {
     <div className="flex flex-col items-center justify-center bg-muted-foreground">
       <Navbar />
       <p className="text-xs text-background max-w-2xl pt-30">
-        AVISO DE PRIVACIDAD INTEGRAL Fecha de última actualización: 30 de
-        octubre de 2025 1. Identidad y Domicilio del Responsable. De conformidad
+        AVISO DE PRIVACIDAD INTEGRAL Fecha de última actualización: 21 de
+        octubre de 2026 1. Identidad y Domicilio del Responsable. De conformidad
         con la Ley Federal de Protección de Datos Personales en Posesión de los
-        Particulares (LFPDPPP), Juan Alvaro Hecht (en lo sucesivo el
+        Particulares (LFPDPPP), Tesoria Technologies, S.A.P.I. de C.V. (en lo sucesivo el
         &quot;Responsable&quot; o &quot;Tesoria&quot;), con domicilio fiscal
-        para oír y recibir notificaciones en Paseo del Mirador 1724, Colinas de
-        San Xavier, 44660, Guadalajara, Jalisco, y con Registro Federal de
-        Contribuyentes HEGJ020708HJCCRNA8 , es el responsable del uso y
+        para oír y recibir notificaciones en Mar Tirreno 2118-12, Country Club,
+        44610, Guadalajara, Jalisco, y con Registro Federal de
+        Contribuyentes TTE260525JSA, es el responsable del uso y
         protección de sus datos personales. 2. Datos Personales que serán
         Sometidos a Tratamiento. 2. Datos Personales que serán Sometidos a
         Tratamiento. Para las finalidades señaladas en este aviso, recabaremos

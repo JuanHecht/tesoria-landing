@@ -28,18 +28,17 @@ export const CustomFooter = () => (
       },
     ]}
     mainLinks={[
-      { href: "/#problem", label: "Problema" },
-      { href: "/#solution", label: "Solución" },
       { href: "/como-funciona", label: "Cómo funciona" },
       { href: "/contact", label: "Contacto" },
+      { href: "https://app.tesoria.ai", label: "Ingresar" },
     ]}
     legalLinks={[
-      { href: "/privacy", label: "Privacy" },
-      { href: "/terms", label: "Terms" },
+      { href: "/privacy", label: "Aviso de privacidad" },
+      { href: "/terms", label: "Términos y condiciones" },
     ]}
     copyright={{
-      text: "© 2025 Tesoria",
-      license: "All rights reserved",
+      text: "© 2026 Tesoria Technologies, S.A.P.I. de C.V.",
+      license: "Todos los derechos reservados.",
     }}
   />
 );

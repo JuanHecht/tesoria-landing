@@ -8,11 +8,10 @@ function ComponentDemo() {
     <div className="flex flex-col items-center justify-center bg-muted-foreground">
       <Navbar />
       <p className="text-xs text-background max-w-2xl pt-30">
-        TÉRMINOS Y CONDICIONES DE SERVICIO Fecha de última actualización: 30 de
-        octubre de 2025 Estos Términos y Condiciones (&apos;Términos&apos;)
+        TÉRMINOS Y CONDICIONES DE SERVICIO Fecha de última actualización: 21 de octubre de 2026 Estos Términos y Condiciones (&apos;Términos&apos;)
         rigen el acceso y uso del sitio web tesoria.ai y la plataforma de
         software de análisis financiero (el &apos;Servicio&apos;) ofrecidos por
-        Juan Alvaro Hecht Garcin (en lo sucesivo &apos;Tesoria&apos;). 1.
+        Tesoria Technologies, S.A.P.I. de C.V. (en lo sucesivo &apos;Tesoria&apos;). 1.
         Aceptación de los Términos Al acceder a nuestro sitio web o utilizar
         nuestro Servicio, usted (&apos;Usuario&apos;) acepta estar sujeto a
         estos Términos. Si no está de acuerdo, no debe utilizar el Servicio. 2.
@@ -37,7 +36,7 @@ function ComponentDemo() {
         constituye asesoría financiera, contable, fiscal o de inversión. Las
         decisiones de negocio tomadas por el Usuario basadas en esta información
         son de su exclusiva responsabilidad. Exclusión de Daños: En la máxima
-        medida permitida por la ley, Tesoria (Juan Alvaro Hecht Garcin) no será
+        medida permitida por la ley, Tesoria (Tesoria Technologies, S.A.P.I. de C.V.) no será
         responsable por ningún daño directo, indirecto, incidental, consecuente,
         especial o punitivo (incluyendo, sin limitación, pérdida de ganancias,
         pérdida de datos, interrupción del negocio o mala toma de decisiones)
