@@ -39,6 +39,7 @@ export function InicioA({ hoy, lang }: { hoy: string; lang: Lang }) {
   const hoyC = fecha(hoy, 0, t.locale);
   const fin = fecha(hoy, 91, t.locale);
   const otro: Lang = lang === "es" ? "en" : "es";
+  const como = lang === "es" ? "/como-funciona" : "/en/how-it-works";
 
   // El layout raíz declara lang="es"; en /en lo corregimos para lectores de pantalla y traductores.
   useEffect(() => {
@@ -71,7 +72,7 @@ export function InicioA({ hoy, lang }: { hoy: string; lang: Lang }) {
             <img src="/como-funciona/mark-purple.svg" alt="" />
             TESORIA<sup>®</sup>
           </Link>
-          <Link className="ia-link" href="/como-funciona">{t.nav.como}</Link>
+          <Link className="ia-link" href={como}>{t.nav.como}</Link>
           <Link className="ia-lang" href={otro === "es" ? "/" : "/en"} onClick={recordar} hrefLang={otro} aria-label={otro === "en" ? "English" : "Español"}>
             {otro.toUpperCase()}
           </Link>
@@ -94,7 +95,7 @@ export function InicioA({ hoy, lang }: { hoy: string; lang: Lang }) {
           <p className="ia-lead">{t.lead[0]}<b>{t.lead[1]}</b>{t.lead[2]}</p>
           <div className="ia-ctas">
             <button className="ia-btn big" onClick={() => abrir("demo", "hero")}>{t.ctas.demo}</button>
-            <Link className="ia-btn big line" href="/como-funciona" onClick={() => track("inicio_como_funciona", { lang })}>
+            <Link className="ia-btn big line" href={como} onClick={() => track("inicio_como_funciona", { lang })}>
               {t.ctas.como} <span className="ia-arr">→</span>
             </Link>
           </div>

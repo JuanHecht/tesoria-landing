@@ -9,14 +9,14 @@ export function fechaDe(hoy: string, masDias = 0) {
   return d;
 }
 
-export function corta(d: Date) {
+export function corta(d: Date, locale = "es-MX") {
   return d
-    .toLocaleDateString("es-MX", { day: "numeric", month: "short", timeZone: "UTC" })
+    .toLocaleDateString(locale, { day: "numeric", month: "short", timeZone: "UTC" })
     .replace(".", "");
 }
 
-export function larga(d: Date) {
-  return d.toLocaleDateString("es-MX", { day: "numeric", month: "long", timeZone: "UTC" });
+export function larga(d: Date, locale = "es-MX") {
+  return d.toLocaleDateString(locale, { day: "numeric", month: "long", timeZone: "UTC" });
 }
 
 export function pesos(v: number) {

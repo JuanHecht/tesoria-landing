@@ -1,17 +1,19 @@
 import { NextResponse, type NextRequest } from "next/server";
 
-// Primera visita a "/" con el navegador en inglés → /en. Si la persona ya eligió idioma
-// (cookie "lang", la pone el botón ES/EN) se respeta. Los bots no mandan Accept-Language,
-// así que Google indexa "/" en español y "/en" en inglés por separado (hreflang).
+// "/" y "/como-funciona" tienen versión en inglés. Manda el idioma que la persona eligió con el botón ES/EN
+// (cookie "lang"); si nunca eligió, el de su navegador. Los bots no mandan Accept-Language, así que Google
+// indexa las rutas en español y las de inglés por separado (hreflang).
+const EN: Record<string, string> = { "/": "/en", "/como-funciona": "/en/how-it-works" };
+
 export function middleware(req: NextRequest) {
-  if (req.cookies.get("lang")) return NextResponse.next();
-  const primero = (req.headers.get("accept-language") || "").split(",")[0].trim().toLowerCase();
-  if (primero.startsWith("en")) {
+  const elegido = req.cookies.get("lang")?.value;
+  const navegador = (req.headers.get("accept-language") || "").split(",")[0].trim().toLowerCase();
+  if ((elegido || navegador).startsWith("en")) {
     const url = req.nextUrl.clone();
-    url.pathname = "/en";
+    url.pathname = EN[req.nextUrl.pathname];
     return NextResponse.redirect(url, 307);
   }
   return NextResponse.next();
 }
 
-export const config = { matcher: ["/"] };
+export const config = { matcher: ["/", "/como-funciona"] };

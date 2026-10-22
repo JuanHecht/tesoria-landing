@@ -11,6 +11,10 @@ const descripcion =
 export const metadata: Metadata = {
   title: titulo,
   description: descripcion,
+  alternates: {
+    canonical: "/como-funciona",
+    languages: { "es-MX": "/como-funciona", en: "/en/how-it-works", "x-default": "/como-funciona" },
+  },
   openGraph: { title: titulo, description: descripcion, locale: "es_MX", type: "website" },
   twitter: { card: "summary_large_image", title: titulo, description: descripcion },
 };

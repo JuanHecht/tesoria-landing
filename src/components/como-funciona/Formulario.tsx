@@ -2,21 +2,20 @@
 
 import { useEffect, useState } from "react";
 import { track } from "@vercel/analytics";
+import { TEXTOS } from "../inicio/textos";
+import { useTextos } from "./textos";
 
 // Mismo Formspree que /contact; "origen" distingue de dónde llegó el contacto.
 const FORMSPREE = "https://formspree.io/f/xanldrvn";
 
 export type Tipo = "demo" | "escribir";
 
-const TIPOS: { k: Tipo; t: string; d: string }[] = [
-  { k: "demo", t: "Quiero una demo", d: "30 minutos, con tus números" },
-  { k: "escribir", t: "Prefiero que me escriban", d: "Primero platicamos tu caso" },
-];
-
 export function Formulario({ tipo: tipoInicial, onClose }: { tipo: Tipo; onClose: () => void }) {
   const [tipo, setTipo] = useState<Tipo>(tipoInicial);
   const [datos, setDatos] = useState({ nombre: "", empresa: "", email: "", telefono: "", mensaje: "" });
   const [estado, setEstado] = useState<"listo" | "enviando" | "ok" | "error">("listo");
+  const { lang } = useTextos();
+  const t = TEXTOS[lang].form;
 
   useEffect(() => {
     const esc = (e: KeyboardEvent) => e.key === "Escape" && onClose();
@@ -43,11 +42,12 @@ export function Formulario({ tipo: tipoInicial, onClose }: { tipo: Tipo; onClose
           ...datos,
           tipo: tipo === "demo" ? "Quiere demo" : "Quiere que le escriban",
           origen: "como-funciona",
-          _subject: `Cómo funciona · ${tipo === "demo" ? "demo" : "contacto"} · ${datos.empresa || datos.nombre}`,
+          idioma: lang,
+          _subject: `Cómo funciona${lang === "en" ? " (EN)" : ""} · ${tipo === "demo" ? "demo" : "contacto"} · ${datos.empresa || datos.nombre}`,
         }),
       });
       if (!r.ok) throw new Error(String(r.status));
-      track("como_funciona_enviado", { tipo });
+      track("como_funciona_enviado", { tipo, lang });
       setEstado("ok");
     } catch {
       setEstado("error");
@@ -57,41 +57,41 @@ export function Formulario({ tipo: tipoInicial, onClose }: { tipo: Tipo; onClose
   return (
     <div className="fm-back" data-lenis-prevent onClick={onClose} role="dialog" aria-modal="true" aria-labelledby="fm-t">
       <div className="fm" onClick={(e) => e.stopPropagation()}>
-        <button className="fm-x" onClick={onClose} aria-label="Cerrar">×</button>
+        <button className="fm-x" onClick={onClose} aria-label={t.cerrar}>×</button>
         {estado === "ok" ? (
           <div className="fm-ok">
-            <b>Listo, ya nos llegó.</b>
-            <p>Te escribimos pronto.</p>
-            <button className="fm-send" onClick={onClose} style={{ marginTop: 16 }}>Cerrar</button>
+            <b>{t.ok[0]}</b>
+            <p>{t.ok[1]}</p>
+            <button className="fm-send" onClick={onClose} style={{ marginTop: 16 }}>{t.cerrar}</button>
           </div>
         ) : (
           <form onSubmit={enviar}>
-            <h3 id="fm-t">Platiquemos</h3>
-            <p>Déjanos tus datos y te contactamos.</p>
+            <h3 id="fm-t">{t.titulo}</h3>
+            <p>{t.sub}</p>
             <div className="fm-tipo">
-              {TIPOS.map((t) => (
-                <button type="button" key={t.k} className={tipo === t.k ? "on" : ""} onClick={() => setTipo(t.k)}>
-                  {t.t}
-                  <small>{t.d}</small>
+              {(["demo", "escribir"] as const).map((k) => (
+                <button type="button" key={k} className={tipo === k ? "on" : ""} onClick={() => setTipo(k)}>
+                  {t.tipos[k][0]}
+                  <small>{t.tipos[k][1]}</small>
                 </button>
               ))}
             </div>
             <div className="fm-row">
-              <label>Nombre<input name="nombre" value={datos.nombre} onChange={cambiar} required autoComplete="name" /></label>
-              <label>Empresa<input name="empresa" value={datos.empresa} onChange={cambiar} required autoComplete="organization" /></label>
+              <label>{t.nombre}<input name="nombre" value={datos.nombre} onChange={cambiar} required autoComplete="name" /></label>
+              <label>{t.empresa}<input name="empresa" value={datos.empresa} onChange={cambiar} required autoComplete="organization" /></label>
             </div>
             <div className="fm-row">
-              <label>Correo<input type="email" name="email" value={datos.email} onChange={cambiar} required autoComplete="email" /></label>
-              <label><div>Teléfono <span>(opcional)</span></div><input type="tel" name="telefono" value={datos.telefono} onChange={cambiar} autoComplete="tel" /></label>
+              <label>{t.correo}<input type="email" name="email" value={datos.email} onChange={cambiar} required autoComplete="email" /></label>
+              <label><div>{t.telefono} <span>{t.opcional}</span></div><input type="tel" name="telefono" value={datos.telefono} onChange={cambiar} autoComplete="tel" /></label>
             </div>
             <label>
-              <div>¿Qué te gustaría resolver? <span>(opcional)</span></div>
+              <div>{t.mensaje} <span>{t.opcional}</span></div>
               <textarea name="mensaje" rows={3} value={datos.mensaje} onChange={cambiar} />
             </label>
             <button className="fm-send" type="submit" disabled={estado === "enviando"}>
-              {estado === "enviando" ? "Enviando…" : "Enviar"}
+              {estado === "enviando" ? t.enviando : t.enviar}
             </button>
-            {estado === "error" && <p className="fm-err">No se pudo enviar. Intenta otra vez en un momento.</p>}
+            {estado === "error" && <p className="fm-err">{t.error}</p>}
           </form>
         )}
       </div>

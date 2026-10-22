@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useTextos } from "./textos";
 
 // En celular no se encoge más que esto: la pantalla se puede deslizar de lado para seguir siendo legible.
 const ESCALA_MIN = 0.62;
@@ -18,6 +19,7 @@ export function Pantalla({
   const wrap = useRef<HTMLDivElement>(null);
   const inner = useRef<HTMLDivElement>(null);
   const [desliza, setDesliza] = useState(false);
+  const t = useTextos();
 
   useEffect(() => {
     const w = wrap.current;
@@ -47,7 +49,7 @@ export function Pantalla({
           {children}
         </div>
       </div>
-      {desliza && <div className="px-hint">Desliza la pantalla para verla completa →</div>}
+      {desliza && <div className="px-hint">{t.pantalla.desliza}</div>}
     </>
   );
 }

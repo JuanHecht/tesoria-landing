@@ -71,6 +71,8 @@
 .cf .v-links { display: flex; gap: 26px; margin-left: auto; font: 500 14px/1 var(--font-display); }
 .cf .v-links a { color: var(--purple-200); transition: color 0.2s; }
 .cf .v-links a:hover, .cf .v-links a.home { color: var(--white); }
+.cf .v-lang { font: 600 13px/1 var(--font-mono); color: var(--purple-200); padding: 8px; margin: 0 -8px; border-radius: 8px; transition: color 0.2s, background 0.2s; }
+.cf .v-lang:hover { color: var(--white); background: rgba(255, 255, 255, 0.08); }
 .cf .v-btn { display: inline-flex; align-items: center; justify-content: center; background: var(--white); color: var(--tesoria-purple); font: 600 15px/1 var(--font-display); padding: 15px 24px; border-radius: var(--radius-md); border: 0; white-space: nowrap; transition: background 0.2s; }
 .cf .v-btn:hover { background: var(--tesoria-blush); }
 .cf .v-btn.sm { padding: 11px 16px; font-size: 14px; }
@@ -403,7 +405,7 @@
 @media (max-width: 900px) {
   .cf .v-in { padding: 0 24px; }
   .cf .v-links { display: none; }
-  .cf .v-nav .v-btn { margin-left: auto; }
+  .cf .v-nav .v-lang { margin-left: auto; }
   .cf .v-row { grid-template-columns: 1fr; gap: 24px; }
   .cf .v-ctas { justify-content: flex-start; }
   .cf .v-feat, .cf .v-feat.rev { grid-template-columns: 1fr; gap: 36px; }

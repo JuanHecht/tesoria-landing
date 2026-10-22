@@ -1,6 +1,7 @@
 "use client";
 
 import { corta, fechaDe, useVisto } from "./util";
+import { useTextos } from "./textos";
 
 const PASADO = [24.8, 22.0, 19.2];
 const BASE = [18.6, 16.4, 17.1, 16.8, 17.1, 16.2, 16.1, 16.4, 19.0, 19.4, 17.2, 14.0, 14.4];
@@ -44,6 +45,7 @@ export function Grafica({
   bajo?: boolean;
 }) {
   const [ref, on] = useVisto<HTMLDivElement>(0.25);
+  const { grafica: tx, locale } = useTextos();
   const esc = modo === "escenario";
   const fut = esc ? BASE.map((v, i) => +(v - delta(i)).toFixed(1)) : BASE;
   const N = PASADO.length + fut.length;
@@ -63,19 +65,19 @@ export function Grafica({
   const li = argmin(fut);
   const lp = all[t + 1 + li];
   const pos = (p: P) => ({ left: (p[0] / 8).toFixed(2) + "%", top: ((p[1] / H) * 100).toFixed(2) + "%" });
-  const lowD = corta(fechaDe(hoy, 7 * (li + 1)));
-  const fin = corta(fechaDe(hoy, 91));
+  const lowD = corta(fechaDe(hoy, 7 * (li + 1)), locale);
+  const fin = corta(fechaDe(hoy, 91), locale);
 
   const stats = esc
     ? [
-        { ov: "Punto más bajo", n: mill(fut[li]), low: true, cap: `semana del ${lowD} · ${menos(fut[li] - BASE[argmin(BASE)])} vs. sin cambios` },
-        { ov: "En 13 semanas", n: mill(fut[12]), cap: `${menos(fut[12] - BASE[12])} vs. sin cambios` },
-        { ov: "Saldo mínimo", n: "$8.0 M", cap: fut[li] > 8 ? "no lo cruzas" : "lo cruzas" },
+        { ov: tx.bajo, n: mill(fut[li]), low: true, cap: `${tx.semana(lowD)} · ${tx.vs(menos(fut[li] - BASE[argmin(BASE)]))}` },
+        { ov: tx.en13, n: mill(fut[12]), cap: tx.vs(menos(fut[12] - BASE[12])) },
+        { ov: tx.minimo, n: "$8.0 M", cap: fut[li] > 8 ? tx.noCruzas : tx.cruzas },
       ]
     : [
-        { ov: "Hoy en bancos", n: mill(PASADO[t]), cap: "todas tus cuentas" },
-        { ov: "Punto más bajo", n: mill(fut[li]), low: true, cap: `semana del ${lowD}` },
-        { ov: "En 13 semanas", n: mill(fut[12]), cap: fin },
+        { ov: tx.hoyBancos, n: mill(PASADO[t]), cap: tx.cuentas },
+        { ov: tx.bajo, n: mill(fut[li]), low: true, cap: tx.semana(lowD) },
+        { ov: tx.en13, n: mill(fut[12]), cap: fin },
       ];
 
   return (
@@ -109,17 +111,17 @@ export function Grafica({
         </div>
       </div>
       <div className="gr-x">
-        <span>2 semanas atrás</span>
+        <span>{tx.atras}</span>
         <span>
-          <b>Hoy</b> · {corta(fechaDe(hoy))}
+          <b>{tx.hoy}</b> · {corta(fechaDe(hoy), locale)}
         </span>
         <span>{fin}</span>
       </div>
       <div className="gr-leg">
-        <span><i className="gr-sw" />Lo que ya pasó</span>
-        <span><i className="gr-sw fut" />{esc ? "Con los 3 cambios" : "Lo que ya está facturado y programado"}</span>
-        {esc && <span><i className="gr-sw base" />Sin los cambios</span>}
-        {esc && <span><i className="gr-sw min" />Saldo mínimo $8.0 M</span>}
+        <span><i className="gr-sw" />{tx.paso}</span>
+        <span><i className="gr-sw fut" />{esc ? tx.conCambios : tx.facturado}</span>
+        {esc && <span><i className="gr-sw base" />{tx.sinCambios}</span>}
+        {esc && <span><i className="gr-sw min" />{tx.minimoLeg}</span>}
       </div>
     </div>
   );
